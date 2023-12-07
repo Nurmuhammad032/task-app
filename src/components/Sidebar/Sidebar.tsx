@@ -141,10 +141,10 @@ const Sidebar = ({ expanded, setExpanded }: IProps) => {
           <Divider sx={{ my: 2 }} />
         </Box>
         <ContentSpace as="nav">
-          {links.map(({ icon, name, submenu, url }) => {
+          {links.map(({ icon, name, submenu, url }, i) => {
             const IconComponent = icon;
             return (
-              <div key={url}>
+              <div key={`link-${i}`}>
                 {submenu.length ? (
                   <MenuAccordion>
                     <MenuAccordionSummary
@@ -158,7 +158,7 @@ const Sidebar = ({ expanded, setExpanded }: IProps) => {
                         </Typography>
                       </AccordionMenuLinkWrapper>
                     </MenuAccordionSummary>
-                    {submenu.map(({ icon, name, url }) => {
+                    {submenu.map(({ icon, name, url }, i) => {
                       const IconComponent = icon;
                       return (
                         <AccordionDetails
@@ -166,7 +166,7 @@ const Sidebar = ({ expanded, setExpanded }: IProps) => {
                             padding: 0,
                             display: expanded ? "inherit" : "none",
                           }}
-                          key={url}
+                          key={`submenu-${i}`}
                         >
                           <Link to={url}>
                             <MenuNestedLinkWrapper>
