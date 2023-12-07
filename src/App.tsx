@@ -1,18 +1,49 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Navbar, Sidebar } from "./components";
+import Demo from "./demo";
+import { Box, Paper, ThemeProvider, createTheme } from "@mui/material";
+import { useState } from "react";
+import { Home, Order, Prices, Shop } from "./pages";
+
+const theme = createTheme({
+  palette: {
+    white: {
+      main: "#ffffff",
+      darker: "#eeeeee",
+    },
+    gray: {
+      main: "#e0e0e0",
+      darker: "#d7d7d7",
+    },
+  },
+});
+
 function App() {
+  const [expanded, setExpanded] = useState(false);
   return (
-    <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque ullam
-      cumque consectetur laudantium magni quo ut porro minima dolor tenetur
-      perferendis unde saepe accusamus tempora qui fuga id odit, accusantium
-      maiores at incidunt sint? Cupiditate, quae eum blanditiis quidem sint
-      suscipit velit sapiente sed commodi exercitationem placeat tempora
-      corrupti dolores a rerum assumenda illo culpa, expedita soluta sunt
-      inventore. Consequatur est odio non quas vel maxime mollitia tempore
-      dolores ad debitis ut ab iure iusto distinctio totam soluta, eos amet
-      perferendis? Magnam, voluptas praesentium tempora sint dicta dolores
-      voluptates. Maiores accusamus impedit ea architecto deleniti quia. Saepe
-      ducimus suscipit laudantium.
-    </div>
+    <Router>
+      <ThemeProvider theme={theme}>
+        <Sidebar expanded={expanded} setExpanded={setExpanded} />
+        <Box
+          sx={{
+            padding: "0 1rem",
+            marginLeft: expanded ? "21rem" : "6rem",
+            transition: "margin 0.2s ease-in-out",
+          }}
+        >
+          <Navbar />
+          <Paper component="main" sx={{ boxShadow: 4, p: 3 }}>
+            <Routes>
+              <Route index element={<Home />} />
+              <Route path="/order" element={<Order />} />
+              <Route path="/prices" element={<Prices />} />
+              <Route path="/shop" element={<Shop />} />
+            </Routes>
+          </Paper>
+        </Box>
+        {/* <Demo /> */}
+      </ThemeProvider>
+    </Router>
   );
 }
 
