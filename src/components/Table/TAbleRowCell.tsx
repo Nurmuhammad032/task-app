@@ -1,11 +1,11 @@
-import { Box, BoxProps, IconButton, Stack, styled } from "@mui/material";
-import { IColumn } from "./types";
+import { Box, BoxProps, styled } from "@mui/material";
+import { IColumn, Render } from "./types";
 import { getValue } from "../../utils/get";
-import { Delete, Edit, Visibility } from "@mui/icons-material";
 
 interface Props<T> {
   row: T;
   column: IColumn;
+  render?: Render<T>;
 }
 
 const TableCell = styled(Box)<BoxProps>(() => ({
@@ -14,26 +14,12 @@ const TableCell = styled(Box)<BoxProps>(() => ({
   color: "grey",
 }));
 
-function TAbleRowCell<T>({ row, column }: Props<T>) {
-  const value = getValue(row as any, column.key);
-  console.log(value);
+function TAbleRowCell<T extends object>({ row, column, render }: Props<T>) {
+  const value = getValue<T, string>(row, column.key);
 
   return (
     <TableCell as="td">
-      {value as string}
-      {column.key === "action" && (
-        <Stack direction={"row"} spacing={1}>
-          <IconButton>
-            <Visibility color="primary" fontSize="small" />
-          </IconButton>
-          <IconButton>
-            <Edit color="success" fontSize="small" />
-          </IconButton>
-          <IconButton>
-            <Delete color="warning" fontSize="small" />
-          </IconButton>
-        </Stack>
-      )}
+      {render && render[column.key] ? render[column.key](row) : value}
     </TableCell>
   );
 }

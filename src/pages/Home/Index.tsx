@@ -1,5 +1,11 @@
+import { SectionTitle } from "../../components/StyledComponents";
+
 const Index = () => {
-  return <div>Index</div>;
+  return (
+    <section>
+      <SectionTitle>Home</SectionTitle>
+    </section>
+  );
 };
 
 export default Index;

@@ -6,7 +6,7 @@ const SectionTitle = styled((props: TypographyProps) => (
   textAlign: "center",
   fontSize: "1.5rem",
   fontWeight: "600",
-  marginBottom: 10,
+  marginBottom: 20,
   color: theme.palette.grey[800],
 }));
 

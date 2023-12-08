@@ -13,13 +13,18 @@ const TableRowItem = styled(Box)<BoxProps>(({ theme }) => ({
   transition: "background-color 0.1s",
 }));
 
-function TableRow<T>({ rows, columns }: TableData<T>) {
+function TableRow<T extends object>({ rows, columns, render }: TableData<T>) {
   return (
     <>
       {rows.map((row, i) => (
         <TableRowItem as="tr" key={`row-item-${i}`}>
           {columns.map((column, i) => (
-            <TAbleRowCell key={`row-cell-${i}`} row={row} column={column} />
+            <TAbleRowCell
+              key={`row-cell-${i}`}
+              row={row}
+              column={column}
+              render={render}
+            />
           ))}
         </TableRowItem>
       ))}

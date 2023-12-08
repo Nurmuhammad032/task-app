@@ -1,8 +1,18 @@
-import { Box, BoxProps, styled } from "@mui/material";
+import {
+  Box,
+  BoxProps,
+  LinearProgress,
+  Typography,
+  styled,
+} from "@mui/material";
 import TableHeader from "./TableHeader";
-import { IColumn, IRows, TableData } from "./types";
-import { FC } from "react";
+import { TableData } from "./types";
 import TableRow from "./TableRow";
+
+interface Props<T> extends TableData<T> {
+  isLoading: boolean;
+  errorMessage: Error | null;
+}
 
 const TableWrapper = styled((props: BoxProps) => (
   <Box component="table" {...props} />
@@ -12,16 +22,40 @@ const TableWrapper = styled((props: BoxProps) => (
   width: "100%",
 }));
 
-function Table<T>({ rows, columns }: TableData<T>) {
+function Table<T extends object>({
+  rows,
+  columns,
+  isLoading,
+  errorMessage,
+  render,
+}: Props<T>) {
   return (
-    <TableWrapper>
-      <thead>
-        <TableHeader columns={columns} />
-      </thead>
-      <tbody>
-        <TableRow rows={rows} columns={columns} />
-      </tbody>
-    </TableWrapper>
+    <Box sx={{ position: "relative" }}>
+      {isLoading && (
+        <LinearProgress
+          sx={{ width: "100%", position: "absolute", top: "2.7rem", left: 0 }}
+        />
+      )}
+      <TableWrapper>
+        <thead>
+          <TableHeader columns={columns} />
+        </thead>
+        {!isLoading && (
+          <tbody>
+            {rows.length ? (
+              <TableRow rows={rows} columns={columns} render={render} />
+            ) : (
+              <tr>
+                <td style={{ paddingTop: "1rem" }}>No data</td>
+              </tr>
+            )}
+          </tbody>
+        )}
+      </TableWrapper>
+      {errorMessage && (
+        <Typography color={"red"}>{errorMessage.message}</Typography>
+      )}
+    </Box>
   );
 }
 

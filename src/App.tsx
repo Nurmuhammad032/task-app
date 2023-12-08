@@ -1,9 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navbar, Sidebar } from "./components";
-import Demo from "./demo";
 import { Box, Paper, ThemeProvider, createTheme } from "@mui/material";
 import { useState } from "react";
-import { Home, Order, Prices, Shop } from "./pages";
+import {
+  Home,
+  NotFound,
+  Order,
+  OrderCreate,
+  OrderEdit,
+  OrderView,
+  Prices,
+  Shop,
+} from "./pages";
 
 const theme = createTheme({
   palette: {
@@ -32,16 +40,22 @@ function App() {
           }}
         >
           <Navbar />
-          <Paper component="main" sx={{ boxShadow: 4, p: 3 }}>
+          <Paper
+            component="main"
+            sx={{ boxShadow: 4, p: 3, overflow: "auto", minHeight: "90vh" }}
+          >
             <Routes>
               <Route index element={<Home />} />
               <Route path="/order" element={<Order />} />
+              <Route path="/order/create" element={<OrderCreate />} />
+              <Route path="/order/:id" element={<OrderView />} />
+              <Route path="/order/edit" element={<OrderEdit />} />
               <Route path="/prices" element={<Prices />} />
               <Route path="/shop" element={<Shop />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Paper>
         </Box>
-        {/* <Demo /> */}
       </ThemeProvider>
     </Router>
   );
